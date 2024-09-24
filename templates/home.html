@@ -1,10 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Hello, World!</title>
+    <style>
+        body {
+            font-family: poppins, sans-serif;
+            margin: 50px;
+        }
+
+        #inputField {
+            width: 200px;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #submitButton {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submitButton:hover {
+            background-color: #45a049;
+        }
+
+        textarea {
+            display: block;
+            margin-top: 20px;
+            width: 300px;
+            height: 100px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .container {
+            border: 2px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="container">
+    <h1>Text Analyzer</h1>
+    <input id="inputField" type="text" placeholder="Enter text here"/>
+    <button id="submitButton">Click Me</button>
+    <h3>Output</h3>
+    <p id="outputField"></p>
+</div>
 </body>
+<script>
+    document.getElementById("submitButton").addEventListener("click", function() {
+        const text = document.getElementById("inputField").value;
+        fetch("/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: text })
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("outputField").innerText = data;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    });
+</script>
 </html>
+
